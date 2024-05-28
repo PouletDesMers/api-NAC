@@ -10,6 +10,9 @@ RUN go mod download
 # Copier le code source de l'application
 COPY . .
 
+#Copy .env
+COPY .env ./
+
 # Construire l'exécutable
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/myapp
 
