@@ -10,8 +10,8 @@ RUN go mod download
 # Copier le code source de l'application
 COPY . .
 
-#Copy .env
-COPY .env ./
+# Copier le fichier .env
+COPY .env .
 
 # Construire l'exécutable
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/myapp
@@ -23,6 +23,7 @@ WORKDIR /root/
 
 # Copier l'exécutable depuis l'étape de build
 COPY --from=builder /app/myapp .
+COPY --from=builder /app/.env .
 
 # Exposer le port de l'application (modifiez selon vos besoins)
 EXPOSE 8080
