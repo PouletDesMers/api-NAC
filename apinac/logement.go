@@ -322,7 +322,7 @@ func GetTypeLogementByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPhotosLogement(w http.ResponseWriter, r *http.Request) {
-	rows, err := db.Query("SELECT id, idLogement, name, largeur, hauteur, emplacement FROM PHOTO_LOGEMENT")
+	rows, err := db.Query("SELECT id, id_Logement, nom, largeur, hauteur, emplacement FROM PHOTO_LOGEMENT")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -348,7 +348,7 @@ func GetPhotosByLogementID(w http.ResponseWriter, r *http.Request) {
     params := mux.Vars(r)
     logementID := params["id"]
 
-    rows, err := db.Query("SELECT id, idLogement, name, largeur, hauteur, emplacement FROM PHOTO_LOGEMENT WHERE idLogement = ?", logementID)
+    rows, err := db.Query("SELECT id, id_Logement, nom, largeur, hauteur, emplacement FROM PHOTO_LOGEMENT WHERE id_Logement = ?", logementID)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
