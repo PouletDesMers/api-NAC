@@ -29,15 +29,13 @@ func main() {
 	// Users
 	r.HandleFunc("/users", apinac.GetAllUsers).Methods("GET")
 	r.HandleFunc("/users/id/{id}", apinac.GetUserByID).Methods("GET")
-
 	r.HandleFunc("/users/email", apinac.GetAllEmailUser).Methods("GET")
 	r.HandleFunc("/users/email/{email}", apinac.GetUserByEmail).Methods("GET")
 	r.HandleFunc("/users/research-email/{email}", apinac.GetUserByResearchEmail).Methods("GET")
-
 	r.HandleFunc("/users/prenom/{prenom}", apinac.GetUserByPrenom).Methods("GET")
 	r.HandleFunc("/users/status/{status}", apinac.GetUserByStatus).Methods("GET")
-
 	r.HandleFunc("/users", apinac.AddUser).Methods("POST")
+	r.HandleFunc("/users/verif/connec", apinac.AuthenticateUser).Methods("POST")
 
 	// Services
 	r.HandleFunc("/services", apinac.GetAllServices).Methods("GET")
@@ -67,13 +65,9 @@ func main() {
 	// PDF
 	r.HandleFunc("/pdflocations/{id}", pdfnac.GetPdfLocationByID).Methods("GET")
 
-	// Chemins vers les fichiers de certificats
-	certFile := "/home/ubuntu/.acme.sh/nac.ovh/nac.ovh.cer"
-	keyFile := "/home/ubuntu/.acme.sh/nac.ovh/nac.ovh.key"
-
 	log.Println("Starting server on :8080")
-	err = http.ListenAndServeTLS(":8080", certFile, keyFile, r)
-	if err != nil {
-		log.Fatalf("Failed to start server: %v", err)
-	}
+    err = http.ListenAndServeTLS(":8080", "/etc/letsencrypt/live/api.nac.ovh/fullchain.pem", "/etc/letsencrypt/live/api.nac.ovh/privkey.pem", r)
+    if err != nil {
+        log.Fatalf("Failed to start server: %v", err)
+    }
 }
